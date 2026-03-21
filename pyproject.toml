@@ -50,4 +50,4 @@ asyncio_mode = "auto"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["app*", "pipeline*"]
+include = ["app*", "pipeline*", "utils*"]
