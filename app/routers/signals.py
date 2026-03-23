@@ -2,6 +2,8 @@ from fastapi import APIRouter, HTTPException, Request, Query
 from app.schemas import SignalsResponse, StockSignal
 from pipeline.ingest import fetch_market_data
 from pipeline.features import build_features
+from mlflow.tracking import MlflowClient
+from datetime import datetime
 
 router = APIRouter()
 
@@ -19,12 +21,17 @@ def get_signals(request: Request, market: str = Query(default="US", enum=["US", 
             StockSignal(ticker=t, score=round(float(s), 4), rank=i + 1, market=market)
             for i, (t, s) in enumerate(ranked)
         ]
+        client = MlflowClient()
+        versions = client.get_latest_versions("quantsignal-ranker")
+        run = client.get_run(versions[0].run_id)
+        last_trained = datetime.fromtimestamp(run.info.start_time / 1000).strftime("%Y-%m-%d %H:%M")
 
         return SignalsResponse(
             signals=signals,
-            model_version="1",
+            model_version=versions[0].version,
             market=market,
             top_n=top_n,
+            last_trained=last_trained
         )    
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -5,10 +5,38 @@ import pandas as pd
 from utils.timer.wrapper import timer
 
 MARKET_TICKERS = {
-    'US': ["NVDA", "AAPL", "GOOGL", "GOOG", "MSFT", "AMZN", "TSLA", "BRK-B", "JPM"],
-    'BR': ["PETR4.SA", "CSAN3.SA", "ITSA4.SA", "GOLL54.SA", "ABEV3.SA"],
-    'UK': ["VOD.L", "LLOY.L", "GLEN.L", "TW.L", "BP.L", "BARC.L", "NWG.L"],
-    'JP': ["7203.T", "6758.T", "9984.T", "8306.T", "6861.T", "9432.T", "6098.T"]
+    'US': [
+        "AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "AVGO", "ORCL", "CRM", "ADBE",
+        "CSCO", "ACN", "IBM", "INTC", "AMD", "QCOM", "TXN", "NOW", "INTU", "AMAT",
+        "JPM", "V", "MA", "BAC", "WFC", "GS", "MS", "C", "AXP", "BLK",
+        "UNH", "JNJ", "LLY", "PFE", "ABBV", "MRK", "TMO", "ABT", "DHR", "BMY",
+        "WMT", "PG", "KO", "PEP", "COST", "MCD", "NKE", "SBUX", "TGT", "HD",
+        "XOM", "CVX", "COP", "SLB", "EOG", "PSX",
+        "CAT", "GE", "HON", "UPS", "RTX", "BA", "DE", "LMT",
+        "PLD", "AMT", "EQIX", "SPG", "PSA", "O"
+    ],
+    'BR': [
+        "PETR4.SA", "PETR3.SA", "PRIO3.SA", "CSAN3.SA", "UGPA3.SA",
+        "ITUB4.SA", "BBDC4.SA", "BBAS3.SA", "SANB11.SA", "B3SA3.SA", "BBSE3.SA",
+        "ABEV3.SA", "WEGE3.SA", "LREN3.SA", "MGLU3.SA", "RADL3.SA", "RENT3.SA",
+        "VALE3.SA", "CSNA3.SA", "GGBR4.SA", "USIM5.SA", "SUZB3.SA",
+        "VIVT3.SA", "ELET3.SA", "EQTL3.SA", "CMIG4.SA"
+    ],
+    'UK': [
+        "SHEL.L", "BP.L",
+        "HSBA.L", "LLOY.L", "BARC.L", "NWG.L", "STAN.L", "LSEG.L",
+        "AZN.L", "GSK.L",
+        "ULVR.L", "DGE.L", "RKT.L", "BATS.L",
+        "RIO.L", "AAL.L", "GLEN.L", "BA.L", "RR.L", "VOD.L"
+    ],
+    'JP': [
+        "7203.T", "7267.T", "7269.T",
+        "6758.T", "6861.T", "6501.T", "6902.T", "6752.T",
+        "8306.T", "8316.T", "8411.T", "8766.T",
+        "9432.T", "9433.T", "9434.T",
+        "9983.T", "7974.T",
+        "9984.T", "4502.T", "4503.T"
+    ]
 }
 
 @timer

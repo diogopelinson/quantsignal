@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from app.routers import signals
+from app.routers import signals, explain, model_info
 import os
 import mlflow
 import mlflow.lightgbm
@@ -13,7 +13,10 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(title="QuantSignal", version="0.1.0", lifespan=lifespan)
+
 app.include_router(signals.router, prefix="/signals", tags=["signals"])
+app.include_router(explain.router, prefix="/explain", tags=["explain"])
+app.include_router(model_info.router, prefix="/model", tags=["model"])
 
 @app.get("/health")
 def health():
