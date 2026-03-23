@@ -56,10 +56,13 @@ def train(market: str = 'US'):
             mlflow.log_metric("ndcg_train", ndcg)
             print(f"NDCG: {ndcg:.4f}")
 
-            mlflow.lightgbm.log_model(
+            model_info = mlflow.lightgbm.log_model(
                 model,
-                name="model",
-                registered_model_name="quantsignal-ranker",
+                artifact_path="model",
+            )
+            mlflow.register_model(
+                model_uri=model_info.model_uri,
+                name="quantsignal-ranker",
             )
     except Exception as e:
         raise RuntimeError(f"Failed to connect to MLFlow: {e}")
