@@ -11,6 +11,23 @@ services:
       --default-artifact-root /mlflow/artifacts
     volumes:
       - mlflow_data:/mlflow
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - mlflow_data:/mlflow
+    depends_on:
+      mlflow:
+        condition: service_healthy
 
 volumes:
   mlflow_data:
