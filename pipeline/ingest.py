@@ -1,6 +1,7 @@
 from typing import Dict
-import yfinance as yf
+
 import pandas as pd
+import yfinance as yf
 
 from utils.timer.wrapper import timer
 
@@ -55,7 +56,7 @@ def fetch_market_data(market: str, period: str) -> Dict[str, pd.DataFrame]:
             df = df.dropna()
             if len(df) > 20:
                 result[ticker] = df
-        except KeyError as e:
+        except KeyError:
             print(f"[WARN] ticker {ticker} not found in response, skipping")
     return result
         

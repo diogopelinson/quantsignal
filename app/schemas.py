@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class StockSignal(BaseModel):
     ticker: str
     score: float

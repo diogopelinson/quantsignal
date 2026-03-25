@@ -1,8 +1,10 @@
-import pandas as pd
-import numpy as np
 from typing import Dict
 
+import numpy as np
+import pandas as pd
+
 from utils.timer.wrapper import timer
+
 
 def _momentum(close: pd.Series, windown: int) -> float:
     if len(close) < windown:

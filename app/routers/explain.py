@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException, Request
-from app.schemas import ExplainResponse, FeatureContribution
-from pipeline.ingest import fetch_market_data
-from pipeline.features import build_features
 import shap
+from fastapi import APIRouter, HTTPException, Request
+
+from app.schemas import ExplainResponse, FeatureContribution
+from pipeline.features import build_features
+from pipeline.ingest import fetch_market_data
 
 router = APIRouter()
 

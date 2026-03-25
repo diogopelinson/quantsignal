@@ -1,9 +1,9 @@
-from fastapi import APIRouter, HTTPException, Request
-from app.schemas import ModelInfoResponse
-from mlflow.tracking import MlflowClient
 from datetime import datetime
-import mlflow
-import os
+
+from fastapi import APIRouter, HTTPException, Request
+from mlflow.tracking import MlflowClient
+
+from app.schemas import ModelInfoResponse
 
 router = APIRouter()
 

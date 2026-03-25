@@ -1,13 +1,14 @@
 import os
+
+import lightgbm as lgb
 import mlflow
 import mlflow.lightgbm
-import lightgbm as lgb
 import pandas as pd
-import numpy as np
-from mlflow.tracking import MlflowClient
-from pipeline.ingest import fetch_market_data
-from pipeline.features import build_features
 from sklearn.metrics import ndcg_score
+
+from pipeline.features import build_features
+from pipeline.ingest import fetch_market_data
+
 
 def build_labels(market_data: dict[str, pd.DataFrame], forward_days: int = 21) -> pd.Series:
     labels = {}

@@ -1,10 +1,12 @@
-from fastapi import FastAPI
-from contextlib import asynccontextmanager
-from app.routers import signals, explain, model_info
 import os
+from contextlib import asynccontextmanager
+
 import mlflow
 import mlflow.lightgbm
-from mlflow.tracking import MlflowClient
+from fastapi import FastAPI
+
+from app.routers import explain, model_info, signals
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

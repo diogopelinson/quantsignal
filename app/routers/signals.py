@@ -1,14 +1,20 @@
-from fastapi import APIRouter, HTTPException, Request, Query
-from app.schemas import SignalsResponse, StockSignal
-from pipeline.ingest import fetch_market_data
-from pipeline.features import build_features
-from mlflow.tracking import MlflowClient
 from datetime import datetime
+
+from fastapi import APIRouter, HTTPException, Query, Request
+from mlflow.tracking import MlflowClient
+
+from app.schemas import SignalsResponse, StockSignal
+from pipeline.features import build_features
+from pipeline.ingest import fetch_market_data
 
 router = APIRouter()
 
 @router.get("", response_model=SignalsResponse)
-def get_signals(request: Request, market: str = Query(default="US", enum=["US", "BR", "UK", "JP"]), top_n: int = Query(default=20, ge=5, le=100)):
+def get_signals(
+    request: Request,
+    market: str = Query(default="US", enum=["US", "BR", "UK", "JP"]),
+    top_n: int = Query(default=20, ge=5, le=100),
+):
     try:
         model = request.app.state.model
         raw = fetch_market_data(market=market, period='2y')
