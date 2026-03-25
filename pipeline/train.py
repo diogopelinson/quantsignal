@@ -5,7 +5,6 @@ import mlflow
 import mlflow.lightgbm
 import pandas as pd
 from sklearn.metrics import ndcg_score
-from mlflow.tracking import MlflowClient
 
 from pipeline.features import build_features
 from pipeline.ingest import fetch_market_data
