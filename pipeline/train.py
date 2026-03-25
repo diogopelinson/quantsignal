@@ -5,9 +5,11 @@ import mlflow
 import mlflow.lightgbm
 import pandas as pd
 from sklearn.metrics import ndcg_score
+from mlflow.tracking import MlflowClient
 
 from pipeline.features import build_features
 from pipeline.ingest import fetch_market_data
+from pipeline.validate import validate_features
 
 
 def build_labels(market_data: dict[str, pd.DataFrame], forward_days: int = 21) -> pd.Series:
@@ -29,6 +31,7 @@ def train(market: str = 'US'):
         mlflow.set_experiment("quantsignal")
         raw = fetch_market_data(market=market, period="2y")
         features = build_features(raw)
+        validate_features(features)
         labels = build_labels(raw)
 
         labels = labels.reindex(features.index).dropna()
@@ -56,6 +59,7 @@ def train(market: str = 'US'):
             ndcg = ndcg_score([y], [preds])
             mlflow.log_metric("ndcg_train", ndcg)
             print(f"NDCG: {ndcg:.4f}")
+
 
             model_info = mlflow.lightgbm.log_model(
                 model,
