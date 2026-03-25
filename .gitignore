@@ -5,3 +5,4 @@ __pycache__/
 mlruns/
 *.db
 *.egg-info/
+.ruff_cache
