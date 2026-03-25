@@ -5,4 +5,22 @@ __pycache__/
 mlruns/
 *.db
 *.egg-info/
-.ruff_cache
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+
+
+infra/terraform/.tfvars
+infra/terraform/.terraform/
+infra/terraform/*.tfstate
+infra/terraform/*.tfstate.backup
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# Docker
+*.log
