@@ -1,0 +1,47 @@
+name: Scheduled Retrain
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"  # toda segunda 6am UTC
+  workflow_dispatch:       
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -e .
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+
+      - name: Update kubeconfig
+        run: aws eks update-kubeconfig --region us-east-1 --name quantsignal-cluster
+
+      - name: Delete old train pod
+        run: kubectl delete pod train --ignore-not-found
+
+      - name: Run training pipeline
+        run: |
+          kubectl run train \
+            --image=${{ secrets.ECR_REPOSITORY_URL }}:latest \
+            --restart=Never \
+            --env="MLFLOW_TRACKING_URI=http://mlflow-service:5000" \
+            --command -- python pipeline/train.py
+
+      - name: Wait for training to complete
+        run: kubectl wait --for=condition=complete pod/train --timeout=600s
+
+      - name: Restart app deployment
+        run: kubectl rollout restart deployment quantsignal-app

@@ -10,8 +10,14 @@ from app.routers import explain, model_info, signals
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000"))
-    app.state.model = mlflow.lightgbm.load_model("models:/quantsignal-ranker/latest")
+    tracking_uri = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
+    mlflow.set_tracking_uri(tracking_uri)
+
+    client = mlflow.MlflowClient()
+    versions = client.get_latest_versions("quantsignal-ranker")
+    run_id = versions[0].run_id
+
+    app.state.model = mlflow.lightgbm.load_model(f"runs:/{run_id}/model")
     yield
 
 app = FastAPI(title="QuantSignal", version="0.1.0", lifespan=lifespan)
