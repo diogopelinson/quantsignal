@@ -1,4 +1,3 @@
-# tests/test_ingest.py
 from pipeline.ingest import MARKET_TICKERS
 
 
