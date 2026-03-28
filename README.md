@@ -15,6 +15,9 @@ A API está disponível publicamente por alguns dias para demonstração. Nenhum
 http://afee7468164e34c6fae28ae59c006faf-235868092.us-east-1.elb.amazonaws.com
 ```
 
+- API Desativada para Minimizar Custos de Infraestrutura.
+
+
 > [!NOTE]
 > **Observação de segurança**
 >
